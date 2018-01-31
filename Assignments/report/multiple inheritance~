@@ -1,0 +1,71 @@
+=> Python supports multiple inheritance also. You can derive a child class from more than one base (parent) class.
+
+
+=> Example:
+
+    class First(object):  
+      def __init__(self):  
+        super(First, self).__init__()  
+        print("first")  
+      
+    class Second(object):  
+      def __init__(self):  
+        super(Second, self).__init__()  
+        print("second")  
+      
+    class Third(First, Second):  
+      def __init__(self):  
+        super(Third, self).__init__()  
+        print("third")  
+      
+    Third();  
+
+=> output :
+    first  
+    second  
+    third  
+
+=>1) Why super () keyword ????
+
+The most commonly super() is used with __init__ function in base classes. 
+This is usually the only place where you need to do some things in a child then complete the initialization in the parent.
+
+=> Example:
+
+class Child(Parent):  
+    def __init__(self, stuff):  
+        self.stuff = stuff  
+        super(Child, self).__init__() 
+
+
+=>2) the same method in multiple inheritance:
+
+Classic classes used a simple MRO scheme: when looking up a method, base classes were searched using a simple depth-first left-to-right scheme. The first matching object found during this search would be returned. For example, consider these classes:
+
+=> example:
+
+class A:
+  def save(self): pass
+
+class B(A): pass
+
+class C:
+  def save(self): pass
+
+class D(B, C): pass
+
+ 
+If we created an instance x of class D, the classic method resolution order would order the classes as D, B, A, C. 
+Thus, a search for the method x.save() would produce A.save() (and not C.save()).
+
+
+
+=> resources:
+
+http://python-history.blogspot.com.eg/2010/06/method-resolution-order.html
+
+https://www.javatpoint.com/multiple-inheritance-in-python
+
+
+
+
