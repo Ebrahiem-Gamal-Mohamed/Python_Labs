@@ -1,0 +1,62 @@
+
+= > Method overloading in Python : 
+
+Python does not support function overloading, however, it does give you the tools to implement it yourself in a fairly straightforward manner.
+
+Using **kw in the parameter list will pass all arguments in a dictionary. In order to simulate function overloading, you test for the existence of parameters yourself and dispatch appropriately:
+
+=> Example : 
+
+	def foo_x_y(x, y):
+	    print("x is %d y is %d" % (x,y))
+
+	def foo_h_l(h, l):
+	    print("h is %d l is %d" % (h,l))
+
+	def foo(**kw):
+	    if 'x' in kw and 'y' in kw:
+		return foo_x_y(kw['x'], kw['y'])
+	    elif 'h' in kw and 'l' in kw:
+		return foo_h_l(kw['h'], kw['l'])
+
+	    raise TypeError("foo() takes exactly 2 argument (%d given)" % len(kw))
+
+
+	>> foo(x=1, y=2)
+	x is 1 y is 2
+	>> foo(h=2, l=1)
+	h is 2 l is 1
+	>> foo(z=1)
+	File "foo.py", line 18, in <module>
+	   foo(z=1)
+	File "foo.py", line 13, in foo
+	   raise TypeError("foo() takes exactly 2 argument (%d given)" % len(kw))
+	TypeError: foo() takes exactly 2 argument (1 given)
+
+This takes more legwork, but is more flexible than overloading. It makes it easier to "overload" in ways that involve a single core implementation, for example:
+
+	def arc_length(**kw):
+	    if 'diameter' not in kw:
+		raise TypeError
+
+	    if 'radians' not in kw or 'degrees' not in kw:
+		raise TypeError
+
+	    if 'radians' in kw and 'degrees' in kw:
+		raise TypeError
+
+	    diameter = kw['diameter']
+
+	    if degrees in kw:
+		radians = degrees_to_radians(kw['degrees'])
+	    else:
+		radians = kw['radians'] 
+
+	    # calculate arc length using radians and diameter
+
+	 arc_length(diameter=10, degrees=30)
+	 arc_length(diameter=10, radians=1.2)
+
+
+
+
